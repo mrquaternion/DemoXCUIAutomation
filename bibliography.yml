@@ -1,0 +1,20 @@
+flakyuitest:
+  type: Web
+  author: Thuyen Trinh
+  title: "Dealing With Flaky UI Tests in iOS:"
+  url: > 
+    https://trinhngocthuyen.com/posts/tech/dealing-with-flaky-ui-tests/
+
+learnxcuitest:
+  type: Web
+  author: Akshay Pai
+  title: "Getting Started with XCUITest: UI Automation Framework on iOS"
+  url: >
+    https://www.browserstack.com/guide/getting-started-xcuitest-framework
+
+appledocs:
+  type: Web
+  author: Apple Developer
+  title: "XCUIAutomation: Replicate sequences of interactions and make sure that your apps user interface behaves as intended."
+  url: >
+    https://developer.apple.com/documentation/xcuiautomation
