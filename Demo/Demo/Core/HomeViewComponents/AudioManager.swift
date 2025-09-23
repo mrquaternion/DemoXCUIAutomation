@@ -7,7 +7,10 @@
 
 import AVKit
 
-final class AudioManager {
+final class AudioManager: TestableAudioManager {
+    static let shared = AudioManager()
+    private init() {}
+    
     private var player: AVAudioPlayer?
     private(set) var current: GameType?
 
@@ -34,3 +37,6 @@ final class AudioManager {
     }
 }
 
+protocol TestableAudioManager {
+    var current: GameType? { get }
+}

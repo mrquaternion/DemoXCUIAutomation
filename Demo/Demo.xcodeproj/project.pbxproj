@@ -55,6 +55,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Core/HomeViewComponents/AudioManager.swift,
 				Core/Types.swift,
 				Errors/AuthError.swift,
 				Resources/botw_sf.mp3,

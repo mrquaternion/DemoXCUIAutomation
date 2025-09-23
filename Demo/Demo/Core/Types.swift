@@ -9,6 +9,7 @@ import Foundation
 
 enum GameType: String, CaseIterable, Identifiable {
     case botw, minecraft, esv, lol, smg, fallout, halo, doom, pokemon
+    
     var id: String { rawValue }
     
     var songFile: String {

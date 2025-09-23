@@ -128,6 +128,38 @@ final class DemoUITests: XCTestCase {
         }
     }
     
+    // MARK: - Tests de l'audio
+    func testVerifyAudioOrigin() throws {
+        app.launch()
+        
+        let audio: TestableAudioManager = AudioManager.shared
+        
+        // Étape 1
+        try testAddSoundtracksToMainBoard()
+        
+        let games: [Game] = [
+            .init(id: .halo, gameName: "Halo: Combat Evolved"),
+            .init(id: .esv, gameName: "The Elder Scrolls V:\nSkyrim")
+        ]
+        games.forEach { game in
+            let playButton = app.buttons.matching(identifier: "pb_\(game.id)").firstMatch
+            playButton.tap()
+            
+            // Étape 2 : Vérifier que la musique jouée par le audio manager est bien celle du bouton
+            if let current = audio.current {
+                XCTAssertTrue(current.id == game.id.rawValue)
+            }
+            
+            // ------ Pour la présentation ------
+            sleep(5)
+            // ----------------------------------
+            playButton.tap()
+            
+            // Étape 3 : Vérifier que le audio manager c'est bien arrêter
+            XCTAssertNil(audio.current)
+        }
+    }
+    
     // MARK: - Miscs
     private func enterCredentials(
         email: String,

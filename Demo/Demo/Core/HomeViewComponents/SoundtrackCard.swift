@@ -80,6 +80,7 @@ struct SoundtrackCard: View {
                                 .foregroundStyle(isOn ? .indigo : .red, .white)
                                 .shadow(color: .black.opacity(0.7), radius: 1)
                         }
+                        .accessibilityLabel("pb_\(game.id)")
                     }
                 }
             }

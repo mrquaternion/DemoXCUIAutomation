@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.dismiss) var dismiss
     
-    private let audioManager = AudioManager()
+    private let audioManager = AudioManager.shared
     
     let spaceFromIsland: Double = 30
     let spaceFromHeader: Double = 20
