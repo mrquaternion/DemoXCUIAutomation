@@ -151,7 +151,7 @@ final class DemoUITests: XCTestCase {
             }
             
             // ------ Pour la présentation ------
-            sleep(5)
+            sleep(7)
             // ----------------------------------
             playButton.tap()
             
