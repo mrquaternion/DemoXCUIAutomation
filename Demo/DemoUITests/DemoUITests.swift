@@ -31,11 +31,11 @@ final class DemoUITests: XCTestCase {
     func testExploreAuthenticationErrors() throws {
         app.launch()
         
-        let credentialCombinations: [(input: (email: String, password: String), output: String?, expected: Bool)] = [
-            (input: (email: "hello", password: "hellofriend"), output: AuthError.invalidEmail.message, expected: false), // courriel invalide
-            (input: (email: "hello@friend.com", password: "Bitsound123"), output: AuthError.emailNotFound.message, expected: false), // mauvais courriel
-            (input: (email: "user@example.com", password: "hellofriend"), output: AuthError.passwordNotFound.message, expected: false), // mauvais mdp
-            (input: (email: "user@example.com", password: "Bitsound123"), output: nil, expected: true)
+        let credentialCombinations: [(input: (email: String, password: String), output: String?, shouldLogIn: Bool)] = [
+            (input: (email: "hello", password: "hellofriend"), output: AuthError.invalidEmail.message, shouldLogIn: false), // courriel invalide
+            (input: (email: "hello@friend.com", password: "Bitsound123"), output: AuthError.emailNotFound.message, shouldLogIn: false), // mauvais courriel
+            (input: (email: "user@example.com", password: "hellofriend"), output: AuthError.passwordNotFound.message, shouldLogIn: false), // mauvais mdp
+            (input: (email: "user@example.com", password: "Bitsound123"), output: nil, shouldLogIn: true)
         ]
         
         // Étape 1 : Vérifier qu'on est bien sur la page d'accueil
@@ -54,7 +54,7 @@ final class DemoUITests: XCTestCase {
                 email: data.input.email,
                 password: data.input.password,
                 errorMessage: data.output,
-                expectedValue: data.expected,
+                shouldLogIn: data.shouldLogIn,
                 emailTextField: emailTextField,
                 passwordTextField: passwordTextField,
                 logInButton: logInButton
@@ -88,15 +88,15 @@ final class DemoUITests: XCTestCase {
             email: validCredentials.email,
             password: validCredentials.password,
             errorMessage: nil,
-            expectedValue: nil,
+            shouldLogIn: nil,
             emailTextField: emailTextField,
             passwordTextField: passwordTextField,
             logInButton: logInButton
         )
         
         // Étape 4 : Ajouter les jeux dont les musiques nous intéressent
-        let addSoundtracks = app.buttons.matching(identifier: "add_soundtrack").firstMatch
-        addSoundtracks.tap()
+        let addSoundtracksButton = app.buttons.matching(identifier: "add_soundtrack").firstMatch
+        addSoundtracksButton.tap()
         
         let gameTypesToPick: [Game] = [
             .init(id: .halo, gameName: "Halo: Combat Evolved"),
@@ -105,11 +105,12 @@ final class DemoUITests: XCTestCase {
         ]
         gameTypesToPick.forEach { game in
             let addHaloSoundtrackButton = app.buttons.matching(identifier: "add_\(game.id.rawValue)").firstMatch
-            addHaloSoundtrackButton.tap()
             
             // ------ Pour la présentation ------
             sleep(2)
             // ----------------------------------
+            
+            addHaloSoundtrackButton.tap()
         }
         
         let confirmButton = app.buttons.matching(identifier: "confirm_selection").firstMatch
@@ -151,7 +152,7 @@ final class DemoUITests: XCTestCase {
             }
             
             // ------ Pour la présentation ------
-            sleep(7)
+            if game.id == .esv { sleep(12) } else { sleep(5) }
             // ----------------------------------
             playButton.tap()
             
@@ -165,7 +166,7 @@ final class DemoUITests: XCTestCase {
         email: String,
         password: String,
         errorMessage: String?,
-        expectedValue: Bool?,
+        shouldLogIn: Bool?,
         emailTextField: XCUIElement,
         passwordTextField: XCUIElement,
         logInButton: XCUIElement
@@ -185,7 +186,7 @@ final class DemoUITests: XCTestCase {
         // Vérification de l'apparition du message d'erreur si c'est le cas
         if let errorMessage = errorMessage  {
             let errorLabel = app.staticTexts[errorMessage]
-            XCTAssertNotEqual(errorLabel.exists, expectedValue)
+            XCTAssertNotEqual(errorLabel.exists, shouldLogIn)
         } else {
             try AuthError.allCases.forEach { error in
                 if app.staticTexts[error.message].waitForExistence(timeout: 1) {
