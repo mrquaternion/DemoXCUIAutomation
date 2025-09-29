@@ -42,7 +42,7 @@ Framework qui permet d'automatiser les intéractions utilisateurs #pause
   - Vérifier le reflet approprié des vues selon le changement des 
     - contrôleurs
     - modèles de données #pause
-  - Créer des cas de tests pour simuler des gestes 
+  - Créer des cas de tests pour simuler des gestes #pause
 ]
 
 Ne possède pas encore son framework moderne comme #box(image("assets/swifttesting.png", width: 1em), baseline: 20%) _Swift Testing_ pour XCTest.
@@ -55,20 +55,6 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
   caption: "Source : " + text(fill: blue)[@learnxcuitest] + " en Annexe" ,
   bordureImage(image("assets/automation_vs_manual.png"))
 ) 
-
-
-== Composantes essentielles
-#pad(left: 1em)[
-  1. `XCUIApplication`
-    - Instance devant être appelée avec `launch()` à chaque début de test. Arguments de lancement spécifiés en même temps de son exécution. #pause
-
-  2. `XCUIElementQuery`
-    - Méthode utilisée par le RunnerApp et permettant de faire des requêtes au `UIWindow` du HostApp pour obtenir les `XCUIElement`. #pause
-
-  
-  3. `XCUIElement`
-    - Composante UI dont l'utilisateur peut intéragir avec grâce à des fonctions comme `tap()`, `doubleTap()`, `press(_:)`, [`swipeLeft()`, `swipeRight()`, etc], `pinch(_:_:)`, `rotate(_:)` et plus.
-]
 
 
 == Assertions XCTest
@@ -97,16 +83,21 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
 ]
 
 
+== Composantes essentielles
+#pad(left: 1em)[
+  1. `XCUIApplication`
+    - Instance devant être appelée avec `launch()` à chaque début de test. Arguments de lancement spécifiés en même temps de son exécution. #pause
 
-== Reconnaissance
+  2. `XCUIElementQuery`
+    - Méthode utilisée par le RunnerApp et permettant de faire des requêtes au `UIWindow` du HostApp pour obtenir les `XCUIElement`. #pause
 
-#figure(
-  caption: "Correspondance entre " + box(image("assets/accessibilityinspector.png", width: 1em), baseline: 20%) + emph( " Accessibility Inspector") + " et l'arbre des composantes de l'interface utilisateur",
-  bordureImage(image("assets/accessibility_vs_uitree.png", width: 100%))
-)
+  
+  3. `XCUIElement`
+    - Composante UI dont le simulateur peut intéragir avec grâce à des fonctions comme `tap()`, `doubleTap()`, `press(_:)`, [`swipeLeft()`, `swipeRight()`, etc], `pinch(_:_:)`, `rotate(_:)` et plus.
+]
 
 
-== Fonctionnement
+== Flux d'appels
 #align(center)[
   #fletcher-diagram(
     node-stroke: .08em,
@@ -120,8 +111,6 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
 
     // Root: RunnerApp (bottom)
     node((0, 0), text(`HostApp`, size: 16pt), radius: 1.6em),
-    pause,
-    edge((0, 0.1), (3, 0.1), "-|>", label: text("XCUIElement", size: 20pt), label-side: center),
     pause,
 
     // UIApplicationMain above RunnerApp
@@ -139,9 +128,20 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
 
     // RootViewController above UIWindow
     node((2.5, 2.3), text(`UIViewController`, size: 11pt), radius: 2em),
-    edge((1, 2), (2.5, 2.3), "-|>")
+    edge((1, 2), (2.5, 2.3), "-|>"),
+    pause,
+
+    edge((0, 0.1), (3, 0.1), "-|>", label: text("XCUIElement", size: 20pt), label-side: center),
   )
 ]
+
+
+== Détection des composantes d'accessibilité
+
+#figure(
+  caption: "Correspondance entre " + box(image("assets/accessibilityinspector.png", width: 1em), baseline: 20%) + emph( " Accessibility Inspector") + " et l'arbre des composantes de l'interface utilisateur",
+  bordureImage(image("assets/accessibility_vs_uitree.png", width: 100%))
+)
 
 
 = Demo
@@ -157,7 +157,7 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
     )
 ]
 
-== Tests UI
+== Exemples de code
 #show: codly-init.with()
 #codly(languages: codly-languages)
 #text(size: 14pt)[
