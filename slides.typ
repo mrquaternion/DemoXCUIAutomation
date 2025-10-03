@@ -106,8 +106,6 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
 
     // HostApp
     node((3, 0), text(`RunnerApp`, size: 16pt), radius: 1.6em, fill: gradient.radial(orange.lighten(80%), orange, center: (30%, 20%), radius: 70%)),
-    pause,
-    edge((3, -0.1), (0, -0.1), "-|>", label: text("XCUIElementQuery", size: 20pt), label-side: center),
 
     // Root: RunnerApp (bottom)
     node((0, 0), text(`HostApp`, size: 16pt), radius: 1.6em),
@@ -131,17 +129,12 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
     edge((1, 2), (2.5, 2.3), "-|>"),
     pause,
 
+    edge((3, -0.1), (0, -0.1), "-|>", label: text("XCUIElementQuery", size: 20pt), label-side: center),
+      pause,
+
     edge((0, 0.1), (3, 0.1), "-|>", label: text("XCUIElement", size: 20pt), label-side: center),
   )
 ]
-
-
-== Détection des composantes d'accessibilité
-
-#figure(
-  caption: "Correspondance entre " + box(image("assets/accessibilityinspector.png", width: 1em), baseline: 20%) + emph( " Accessibility Inspector") + " et l'arbre des composantes de l'interface utilisateur",
-  bordureImage(image("assets/accessibility_vs_uitree.png", width: 100%))
-)
 
 
 = Demo
@@ -181,37 +174,23 @@ Ne possède pas encore son framework moderne comme #box(image("assets/swifttesti
   ```
 ]
 
-#pagebreak()
+= Conclusion
+== Conseil
+Depuis Xcode 26, il est possible d'enregistrer les intéractions avec le UI facilement.
 
-#text(size: 13.7pt)[
-  ```swift
-  private func enterCredentials(email: String, password: String, error: String?, expVal: Bool?, 
-                                emailTF: XCUIElement, passwordTF: XCUIElement, loginBT: XCUIElement) throws {
-      emailTF.tap()
-      emailTF.typeText(email)
-      app.keyboards.buttons["Return"].tap() 
-      // Nécessaire sinon le simulateur ne trouve pas le prochain champ de texte
-      passwordTF.tap()
-      passwordTF.typeText(password)
-      app.keyboards.buttons["Return"].tap()
-      loginBT.tap()
-      // Vérification de l'apparition du message d'erreur 
-      if let errorMessage = error  { 
-          let errorLabel = app.staticTexts[errorMessage]
-          XCTAssertNotEqual(errorLabel.exists, expVal)
-      } else {
-          try AuthError.allCases.forEach { error in
-              if app.staticTexts[error.message].waitForExistence(timeout: 1) { throw error }
-          }
-      }
-  }
-  ```
-]
+#bordureImage(image("assets/nouv_fonc.png", width: 100%))
 
+Utilisez-le ! \
+Vous allez passer moins de temps à écrire le code correspondant aux gestes utilisateurs.
 
 #show: appendix
 
 = Annexe
+== Extra
+#figure(
+  caption: "Correspondance entre " + box(image("assets/accessibilityinspector.png", width: 1em), baseline: 20%) + emph( " Accessibility Inspector") + " et l'arbre des composantes de l'interface utilisateur",
+  bordureImage(image("assets/accessibility_vs_uitree.png", width: 100%))
+)
 
 == Sources
 

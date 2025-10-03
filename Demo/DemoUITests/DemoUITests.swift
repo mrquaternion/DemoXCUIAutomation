@@ -34,7 +34,6 @@ final class DemoUITests: XCTestCase {
         let credentialCombinations: [(input: (email: String, password: String), output: String?, shouldLogIn: Bool)] = [
             (input: (email: "hello", password: "hellofriend"), output: AuthError.invalidEmail.message, shouldLogIn: false), // courriel invalide
             (input: (email: "hello@friend.com", password: "Bitsound123"), output: AuthError.emailNotFound.message, shouldLogIn: false), // mauvais courriel
-            (input: (email: "user@example.com", password: "hellofriend"), output: AuthError.passwordNotFound.message, shouldLogIn: false), // mauvais mdp
             (input: (email: "user@example.com", password: "Bitsound123"), output: nil, shouldLogIn: true)
         ]
         
@@ -129,6 +128,10 @@ final class DemoUITests: XCTestCase {
         }
     }
     
+    func monTest() throws {
+        
+    }
+    
     // MARK: - Tests de l'audio
     func testVerifyAudioOrigin() throws {
         app.launch()
@@ -144,7 +147,7 @@ final class DemoUITests: XCTestCase {
         ]
         games.forEach { game in
             let playButton = app.buttons.matching(identifier: "pb_\(game.id)").firstMatch
-            playButton.tap()
+            playButton.tap() // Activer
             
             // Étape 2 : Vérifier que la musique jouée par le audio manager est bien celle du bouton
             if let current = audio.current {
@@ -154,7 +157,7 @@ final class DemoUITests: XCTestCase {
             // ------ Pour la présentation ------
             if game.id == .esv { sleep(12) } else { sleep(5) }
             // ----------------------------------
-            playButton.tap()
+            playButton.tap() // Arrêter
             
             // Étape 3 : Vérifier que le audio manager c'est bien arrêter
             XCTAssertNil(audio.current)

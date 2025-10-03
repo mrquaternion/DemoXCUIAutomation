@@ -71,6 +71,7 @@ struct SoundtrackCard: View {
                     HStack {
                         Spacer()
                         
+                        // Bouton Play
                         Button {
                             withAnimation { isOn.toggle() }   
                         } label: {
